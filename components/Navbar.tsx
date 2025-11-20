@@ -1,5 +1,5 @@
 import React from 'react';
-import { Moon, MapPin, Sparkles } from 'lucide-react';
+import { MapPin, MessageSquare, Menu } from 'lucide-react';
 
 interface NavbarProps {
   activeTab: 'explore' | 'concierge';
@@ -8,68 +8,73 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   return (
-    <nav className="sticky top-0 z-50 bg-night-900/80 backdrop-blur-md border-b border-white/10">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
-          <div className="flex items-center gap-2 group cursor-pointer" onClick={() => setActiveTab('explore')}>
-            <div className="relative">
-              <Moon className="h-8 w-8 text-neon-blue group-hover:text-neon-pink transition-colors duration-300" />
-              <div className="absolute inset-0 bg-neon-blue blur-lg opacity-40 group-hover:opacity-60 transition-opacity"></div>
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('explore')}>
+            <div className="flex flex-col items-center justify-center w-10 h-10 bg-vb-blue text-white rounded-full font-serif font-bold text-lg">
+              VB
             </div>
-            <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              NEON<span className="text-neon-blue">WAVE</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="text-vb-blue font-serif font-bold text-xl leading-none">VIRGINIA BEACH</span>
+              <span className="text-vb-teal text-xs font-medium tracking-widest uppercase">Nightlife Guide</span>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className="ml-10 flex items-baseline space-x-2">
               <button
                 onClick={() => setActiveTab('explore')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                   activeTab === 'explore'
-                    ? 'bg-white/10 text-neon-blue shadow-[0_0_15px_rgba(0,243,255,0.3)]'
-                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-vb-sand text-vb-blue font-semibold'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-vb-blue'
                 }`}
               >
                 <MapPin className="h-4 w-4" />
-                Explore
+                Explore Venues
               </button>
               <button
                 onClick={() => setActiveTab('concierge')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                   activeTab === 'concierge'
-                    ? 'bg-white/10 text-neon-pink shadow-[0_0_15px_rgba(255,0,255,0.3)]'
-                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-vb-blue text-white shadow-md'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-vb-blue'
                 }`}
               >
-                <Sparkles className="h-4 w-4" />
-                AI Concierge
+                <MessageSquare className="h-4 w-4" />
+                Ask Concierge
               </button>
             </div>
+          </div>
+          
+          {/* Mobile Menu Icon */}
+          <div className="md:hidden text-gray-500">
+            <Menu className="h-6 w-6" />
           </div>
         </div>
       </div>
       
-      {/* Mobile Tabs (Bottom on mobile usually better, but sticking to top for simplicity here) */}
-      <div className="md:hidden border-t border-white/5 flex">
+      {/* Mobile Tabs */}
+      <div className="md:hidden border-t border-gray-100 flex">
          <button
             onClick={() => setActiveTab('explore')}
-            className={`flex-1 py-3 text-center text-sm font-medium ${
-              activeTab === 'explore' ? 'text-neon-blue bg-white/5' : 'text-gray-400'
+            className={`flex-1 py-4 text-center text-sm font-medium transition-colors ${
+              activeTab === 'explore' ? 'text-vb-blue border-b-2 border-vb-blue bg-vb-sand/30' : 'text-gray-500'
             }`}
           >
             Explore
           </button>
           <button
             onClick={() => setActiveTab('concierge')}
-            className={`flex-1 py-3 text-center text-sm font-medium ${
-              activeTab === 'concierge' ? 'text-neon-pink bg-white/5' : 'text-gray-400'
+            className={`flex-1 py-4 text-center text-sm font-medium transition-colors ${
+              activeTab === 'concierge' ? 'text-vb-blue border-b-2 border-vb-blue bg-vb-sand/30' : 'text-gray-500'
             }`}
           >
-            AI Concierge
+            Concierge
           </button>
       </div>
     </nav>

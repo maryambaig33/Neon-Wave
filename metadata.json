@@ -1,6 +1,6 @@
 {
-  "name": "NeonWave VB",
-  "description": "A next-generation, AI-powered nightlife guide for Virginia Beach. Discover clubs, bars, and hidden gems with real-time AI recommendations.",
+  "name": "VB Nightlife",
+  "description": "Discover the best nightlife in Virginia Beach. From oceanfront bars to live music venues.",
   "requestFramePermissions": [
     "geolocation"
   ]

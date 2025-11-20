@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, Map, Loader2 } from 'lucide-react';
-import { ChatMessage, GroundingChunk } from '../types';
+import { Send, Sparkles, Map, Loader2, MessageSquare } from 'lucide-react';
+import { ChatMessage } from '../types';
 import { sendMessageToGuide } from '../services/geminiService';
 
 export const AIChat: React.FC = () => {
@@ -8,7 +8,7 @@ export const AIChat: React.FC = () => {
     {
       id: 'welcome',
       role: 'model',
-      text: "Hey! I'm NeonWave, your VB nightlife guide. Looking for a chill lounge, a wild club, or the best live music tonight? Just ask!"
+      text: "Hello! I'm your Virginia Beach Nightlife Concierge. Whether you're looking for a quiet cocktail, a lively dance floor, or local brews, I can help you find the perfect spot. How can I help you tonight?"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -24,7 +24,6 @@ export const AIChat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Attempt to get geolocation on mount
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -47,7 +46,6 @@ export const AIChat: React.FC = () => {
     const userText = inputValue.trim();
     setInputValue('');
     
-    // Add user message
     const newUserMsg: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
@@ -72,7 +70,7 @@ export const AIChat: React.FC = () => {
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: "Sorry, my connection to the nightlife grid is a bit static-y right now. Try again?",
+        text: "I apologize, but I'm having trouble connecting to our database right now. Please try again in a moment.",
         isError: true
       };
       setMessages(prev => [...prev, errorMsg]);
@@ -89,38 +87,41 @@ export const AIChat: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[600px] bg-night-800/50 backdrop-blur-lg rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+    <div className="flex flex-col h-[600px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
       
       {/* Header */}
-      <div className="p-4 bg-night-900/80 border-b border-white/10 flex items-center gap-3">
-        <div className="p-2 bg-neon-pink/20 rounded-full">
-          <Sparkles className="w-5 h-5 text-neon-pink" />
+      <div className="p-5 bg-vb-blue text-white flex items-center gap-4 shadow-md relative overflow-hidden">
+        <div className="absolute right-0 top-0 opacity-10">
+             <Sparkles className="w-32 h-32" />
         </div>
-        <div>
-          <h2 className="font-bold text-white">NeonWave Concierge</h2>
-          <p className="text-xs text-gray-400">Powered by Gemini 2.5 & Google Maps</p>
+        <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm z-10">
+          <MessageSquare className="w-6 h-6 text-vb-gold" />
+        </div>
+        <div className="z-10">
+          <h2 className="font-serif font-bold text-xl">Concierge</h2>
+          <p className="text-xs text-blue-200">Local insights • Powered by Gemini</p>
         </div>
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50">
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[85%] rounded-2xl p-4 ${
+              className={`max-w-[85%] p-5 shadow-sm ${
                 msg.role === 'user'
-                  ? 'bg-neon-blue/10 text-white border border-neon-blue/30 rounded-tr-none'
-                  : 'bg-night-700 text-gray-100 border border-white/5 rounded-tl-none'
-              } ${msg.isError ? 'border-red-500/50 text-red-200' : ''}`}
+                  ? 'bg-vb-blue text-white rounded-2xl rounded-tr-sm'
+                  : 'bg-white text-gray-800 border border-gray-100 rounded-2xl rounded-tl-sm'
+              } ${msg.isError ? 'border-red-200 bg-red-50 text-red-800' : ''}`}
             >
               <p className="whitespace-pre-wrap text-sm leading-relaxed">{msg.text}</p>
               
-              {/* Grounding Chips (Maps Links) */}
+              {/* Grounding Chips */}
               {msg.groundingChips && msg.groundingChips.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-white/10 flex flex-wrap gap-2">
+                <div className="mt-4 pt-3 border-t border-dashed border-gray-200/50 flex flex-wrap gap-2">
                   {msg.groundingChips.map((chunk, idx) => {
                     if (chunk.maps?.uri) {
                       return (
@@ -129,10 +130,14 @@ export const AIChat: React.FC = () => {
                           href={chunk.maps.uri}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 px-2 py-1 bg-white/5 hover:bg-white/10 rounded text-xs text-neon-blue border border-transparent hover:border-neon-blue/30 transition-colors"
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                            msg.role === 'user' 
+                              ? 'bg-white/20 hover:bg-white/30 text-white' 
+                              : 'bg-vb-sand hover:bg-gray-200 text-vb-blue'
+                          }`}
                         >
-                          <Map className="w-3 h-3" />
-                          {chunk.maps.title || "View on Map"}
+                          <Map className="w-3.5 h-3.5" />
+                          {chunk.maps.title || "View Map"}
                         </a>
                       );
                     }
@@ -143,7 +148,11 @@ export const AIChat: React.FC = () => {
                           href={chunk.web.uri}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 px-2 py-1 bg-white/5 hover:bg-white/10 rounded text-xs text-gray-300 border border-transparent hover:border-white/20 transition-colors"
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                            msg.role === 'user'
+                              ? 'bg-white/20 hover:bg-white/30 text-white' 
+                              : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                          }`}
                         >
                           {chunk.web.title || "Source"}
                         </a>
@@ -157,10 +166,10 @@ export const AIChat: React.FC = () => {
           </div>
         ))}
         {isLoading && (
-           <div className="flex justify-start">
-             <div className="bg-night-700 border border-white/5 rounded-2xl rounded-tl-none p-4 flex items-center gap-2">
-                <Loader2 className="w-4 h-4 text-neon-pink animate-spin" />
-                <span className="text-xs text-gray-400">Scanning the city...</span>
+           <div className="flex justify-start animate-pulse">
+             <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm p-4 flex items-center gap-3 shadow-sm">
+                <Loader2 className="w-4 h-4 text-vb-teal animate-spin" />
+                <span className="text-xs text-gray-500">Finding the best spots...</span>
              </div>
            </div>
         )}
@@ -168,20 +177,20 @@ export const AIChat: React.FC = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-night-900/80 border-t border-white/10">
+      <div className="p-4 bg-white border-t border-gray-200">
         <div className="relative">
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about clubs, drink specials, or live bands..."
-            className="w-full bg-night-800 border border-white/10 text-white placeholder-gray-500 rounded-xl py-3 pl-4 pr-12 focus:outline-none focus:border-neon-blue/50 focus:ring-1 focus:ring-neon-blue/50 transition-all"
+            placeholder="Type your question..."
+            className="w-full bg-gray-50 border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl py-3.5 pl-5 pr-14 focus:outline-none focus:border-vb-blue focus:ring-2 focus:ring-vb-blue/10 transition-all"
           />
           <button
             onClick={handleSend}
             disabled={!inputValue.trim() || isLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-neon-blue/10 text-neon-blue rounded-lg hover:bg-neon-blue hover:text-night-900 disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-neon-blue transition-all"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-vb-blue text-white rounded-lg hover:bg-vb-teal disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-4 h-4" />
           </button>

@@ -34,7 +34,7 @@ export const POPULAR_VENUES: Venue[] = [
   {
     id: '4',
     name: "Lunasea",
-    description: "A multi-level venue with a key west vibe, outdoor patio, and late-night DJ sets. A staple for locals and tourists alike.",
+    description: "A multi-level venue with a Key West vibe, outdoor patio, and late-night DJ sets. A staple for locals and tourists alike.",
     category: 'Live Music',
     rating: 4.4,
     imageUrl: "https://picsum.photos/seed/lunasea/600/400",
@@ -63,12 +63,13 @@ export const POPULAR_VENUES: Venue[] = [
   }
 ];
 
-export const SYSTEM_INSTRUCTION = `You are NeonWave, the ultimate AI concierge for Virginia Beach nightlife. 
-Your goal is to help users find the perfect spot for their evening.
-Tone: Energetic, knowledgeable, cool, and helpful.
+export const SYSTEM_INSTRUCTION = `You are the Virginia Beach Nightlife Concierge.
+Your goal is to help visitors and locals find the perfect spot for their evening in Virginia Beach.
+Tone: Welcoming, enthusiastic, local, and helpful. Like a friendly local guide.
 Context: You know about clubs, bars, breweries, romantic spots, and live music venues in Virginia Beach.
 Rules:
-1. Always be concise.
-2. When suggesting places, try to include what they are best for (e.g., "Best for dancing", "Best for a quiet drink").
+1. Be helpful and inviting.
+2. When suggesting places, try to include what they are best for (e.g., "Great for sunset views", "Live local bands").
 3. Use the googleMaps tool to find real locations and provide links.
+4. Keep responses concise but warm.
 `;
