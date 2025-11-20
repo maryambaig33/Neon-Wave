@@ -6,7 +6,8 @@ let ai: GoogleGenAI | null = null;
 
 // Initialize the AI client securely with the env key
 try {
-  if (process.env.API_KEY) {
+  // Check if process is defined before accessing properties to prevent ReferenceError in some environments
+  if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
     ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   }
 } catch (error) {

@@ -46,7 +46,12 @@ const App: React.FC = () => {
 
             {/* Vibe Check / CTA Section */}
             <section className="bg-vb-blue py-20 relative overflow-hidden">
-              <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+              {/* CSS Pattern Background */}
+              <div className="absolute inset-0 opacity-10" style={{ 
+                backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                backgroundSize: '30px 30px' 
+              }}></div>
+              
               <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
                  <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6">Can't decide where to go?</h2>
                  <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto">
