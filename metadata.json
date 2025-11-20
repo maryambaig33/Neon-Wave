@@ -1,0 +1,7 @@
+{
+  "name": "NeonWave VB",
+  "description": "A next-generation, AI-powered nightlife guide for Virginia Beach. Discover clubs, bars, and hidden gems with real-time AI recommendations.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
